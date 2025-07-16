@@ -97,9 +97,9 @@ export default function UserTable({
                             </td>
                             <td>{i + 1}</td>
                             <td>{ip}</td>
-                            {u.IDorResidenceNumber && u.IDorResidenceNumber.trim() !== ''
+                            <td> {u.IDorResidenceNumber && u.IDorResidenceNumber.trim() !== ''
                                 ? u.IDorResidenceNumber
-                                : ''}
+                                : ''}</td>
                             <td>{u.FullName}</td>
                             <td>
                                 <span
