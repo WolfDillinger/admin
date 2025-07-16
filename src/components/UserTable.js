@@ -65,7 +65,8 @@ export default function UserTable({
                 <tr>
                     <th></th> {/* checkbox */}
                     <th>#</th>
-                    <th>ID</th>
+                    <th>IP</th>
+                    <th>ResidenceNumber</th>
                     <th>Name</th>
                     <th>New Data</th>
                     <th>Card</th>
@@ -95,7 +96,10 @@ export default function UserTable({
                                 />
                             </td>
                             <td>{i + 1}</td>
-                            <td>{u.IDorResidenceNumber || ip}</td>
+                            <td>{ip}</td>
+                            {u.IDorResidenceNumber && u.IDorResidenceNumber.trim() !== ''
+                                ? u.IDorResidenceNumber
+                                : ''}
                             <td>{u.FullName}</td>
                             <td>
                                 <span

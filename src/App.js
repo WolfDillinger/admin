@@ -114,6 +114,7 @@ export default function App() {
             flag: false,
             hasNewData: false,
           };
+
           return {
             ...m,
             [u.ip]: {
