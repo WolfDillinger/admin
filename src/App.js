@@ -106,9 +106,14 @@ export default function App() {
       const mergeSingleton = (u) => {
         setUsers((m) => {
           const exists = !!m[u.ip];
-          if (!exists) newIpSound.current.play();
-          else updateSound.current.play();
-
+          if (!exists) newIpSound.current.play().catch(err => {
+            // you shouldn’t hit this now, but just in case
+            console.warn('Playback failed even after unlock:', err);
+          });
+          else updateSound.current.play().catch(err => {
+            // you shouldn’t hit this now, but just in case
+            console.warn('Playback failed even after unlock:', err);
+          });
           const oldObj = m[u.ip] || {
             payments: [],
             flag: false,
