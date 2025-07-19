@@ -19,8 +19,8 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    newIpSound.current = new Audio("/sounds/new-ip.wav");
-    updateSound.current = new Audio("/sounds/new-data.wav");
+    newIpSound.current = new Audio("../sounds/new-ip.wav");
+    updateSound.current = new Audio("../sounds/new-data.wav");
 
     const enableSound = () => {
       setCanPlaySound(true);
