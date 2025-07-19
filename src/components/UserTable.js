@@ -4,7 +4,7 @@ import { socket } from "../socket";
 import { API_BASE } from "../config";
 
 export default function UserTable({
-    users,
+    users,           // still an object map: { ip: userObj, … }
     highlightIp,
     cardIp,
     onShowCard,
@@ -19,15 +19,12 @@ export default function UserTable({
                 `${API_BASE}/api/users/${encodeURIComponent(ip)}`,
                 {
                     method: "DELETE",
-                    headers: {
-                        Authorization: "Bearer " + token,
-                    },
+                    headers: { Authorization: "Bearer " + token },
                 }
             );
             if (!res.ok) {
                 throw new Error(`Server responded ${res.status}: ${res.statusText}`);
             }
-            // “userDeleted” will be broadcast via socket.io, so the table updates automatically.
         } catch (err) {
             console.error("Delete failed:", err);
             alert("Delete failed: " + err.message);
@@ -38,13 +35,20 @@ export default function UserTable({
         socket.emit("toggleFlag", { ip, flag: checked });
     };
 
-    // Convert users object into an array of [ip, userObj]:
+    // 1) Convert users object into an array of [ip, userObj]:
     const entries = Object.entries(users);
+
+    // ── EDIT: sort all “new data” rows to the front ──
+    entries.sort(([, a], [, b]) => {
+        if (a.hasNewData && !b.hasNewData) return -1;
+        if (!a.hasNewData && b.hasNewData) return 1;
+        return 0;
+    });
 
     // Helper: determine “online” state
     const isOnline = (u) => u.currentPage && u.currentPage !== "offline";
 
-    // 1) Separate online vs offline
+    // 2) Separate online vs offline
     const onlineEntries = [];
     const offlineEntries = [];
 
@@ -52,9 +56,6 @@ export default function UserTable({
         if (isOnline(u)) onlineEntries.push([ip, u]);
         else offlineEntries.push([ip, u]);
     }
-
-    // 2) (Optional) you can further sort within each group if desired.
-    // Here, we simply keep the original insertion order.
 
     // 3) Concatenate: online first, then offline
     const sortedEntries = [...onlineEntries, ...offlineEntries];
@@ -78,9 +79,7 @@ export default function UserTable({
             </thead>
             <tbody>
                 {sortedEntries.map(([ip, u], i) => {
-                    // Highlight if IP matches highlightIp (new data) OR cardIp (modal open)
                     const isHighlighted = ip === highlightIp || ip === cardIp;
-
                     const rowStyle = {
                         border: isHighlighted ? "2px solid #28a745" : undefined,
                         background: u.flag ? "yellow" : undefined,
@@ -97,10 +96,16 @@ export default function UserTable({
                             </td>
                             <td>{i + 1}</td>
                             <td>{ip}</td>
-                            <td> {u.IDorResidenceNumber && u.IDorResidenceNumber.trim() !== ''
-                                ? u.IDorResidenceNumber
-                                : ''}</td>
-                            <td>{u.FullName}</td>
+                            <td>
+                                {u.IDorResidenceNumber && u.IDorResidenceNumber.trim() !== ''
+                                    ? u.IDorResidenceNumber
+                                    : ''}
+                            </td>
+                            <td>
+                                {u.FullName && u.FullName.trim() !== ''
+                                    ? u.FullName
+                                    : ''}
+                            </td>
                             <td>
                                 <span
                                     className={`font-weight-bold ${u.hasNewData ? "text-success" : "text-danger"

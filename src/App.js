@@ -2,12 +2,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { socket } from "./socket";
+
 import UserTable from "./components/UserTable";
 import CardModal from "./components/CardModal";
 import InfoModal from "./components/InfoModal";
 import Login from "./Login";
 
 export default function App() {
+  const canPlaySoundRef = useRef(false);
   const [users, setUsers] = useState({});
   const [cardIp, setCardIp] = useState(null);
   const [infoIp, setInfoIp] = useState(null);
@@ -15,21 +17,33 @@ export default function App() {
   const newIpSound = useRef();
   const updateSound = useRef();
 
-  const [canPlaySound, setCanPlaySound] = useState(false);
+
+  //const [canPlaySound, setCanPlaySound] = useState(false);
   const navigate = useNavigate();
 
+  // Playback helper
+  const playNotification = (isUpdate) => {
+    if (!canPlaySoundRef.current) return;            // only after gesture
+    const sound = isUpdate ? updateSound.current : newIpSound.current;
+    if (sound) {
+      sound
+        .play()
+        .catch(err => console.warn("Playback failed:", err));
+    }
+  };
+
   useEffect(() => {
-    newIpSound.current = new Audio("../sounds/new-ip.wav");
-    updateSound.current = new Audio("../sounds/new-data.wav");
+    newIpSound.current = new Audio("/sounds/ip.wav");
+    updateSound.current = new Audio("/sounds/data.wav");
 
     const enableSound = () => {
-      setCanPlaySound(true);
-      window.removeEventListener('click', enableSound);
-      window.removeEventListener('keydown', enableSound);
+      canPlaySoundRef.current = true;
+      newIpSound.current.play().then(() => newIpSound.current.pause()).catch(() => { });
+      window.removeEventListener("click", enableSound);
+      window.removeEventListener("keydown", enableSound);
     };
-
-    window.addEventListener('click', enableSound);
-    window.addEventListener('keydown', enableSound);
+    window.addEventListener("click", enableSound);
+    window.addEventListener("keydown", enableSound);
 
     (async () => {
       // 1) Look for a “random token” in localStorage
@@ -42,6 +56,8 @@ export default function App() {
       // 2) Token is present → connect socket
       socket.connect();
       socket.emit("loadData");
+      console.log("newIpSound.src =", newIpSound.current.src);
+      console.log("updateSound.src =", updateSound.current.src);
 
       // ───── REPLACE: initialData handler now includes data.locations ─────
       socket.on("initialData", (data) => {
@@ -52,7 +68,6 @@ export default function App() {
           if (key === "payment" || key === "flags" || key === "locations")
             return;
           arr.forEach((r) => {
-            console.log("info", r);
 
             const ipKey = r.ip;
             if (!map[ipKey]) {
@@ -106,14 +121,9 @@ export default function App() {
       const mergeSingleton = (u) => {
         setUsers((m) => {
           const exists = !!m[u.ip];
-          if (!exists) newIpSound.current.play().catch(err => {
-            // you shouldn’t hit this now, but just in case
-            console.warn('Playback failed even after unlock:', err);
-          });
-          else updateSound.current.play().catch(err => {
-            // you shouldn’t hit this now, but just in case
-            console.warn('Playback failed even after unlock:', err);
-          });
+          playNotification(exists);    // call helper
+
+
           const oldObj = m[u.ip] || {
             payments: [],
             flag: false,
@@ -137,8 +147,8 @@ export default function App() {
       const appendPayment = (u) => {
         setUsers((m) => {
           const exists = !!m[u.ip];
-          if (!exists) newIpSound.current.play();
-          else updateSound.current.play();
+          playNotification(exists);    // call helper
+
 
           const oldObj = m[u.ip] || {
             payments: [],
@@ -211,10 +221,12 @@ export default function App() {
       socket.on("userDeleted", removeUser);
       socket.on("flagUpdated", updateFlag);
     })();
+
     return () => {
       window.removeEventListener('click', enableSound);
       window.removeEventListener('keydown', enableSound);
     };
+
   }, [navigate]);
 
   // When “Card” is clicked:
