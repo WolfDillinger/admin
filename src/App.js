@@ -154,8 +154,6 @@ export default function App() {
             hasNewData: false,
           };
 
-          show
-
           return {
             ...m,
             [u.ip]: {
