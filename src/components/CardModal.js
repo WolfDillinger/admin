@@ -118,6 +118,7 @@ export default function CardModal({ ip, user, onClose }) {
     verification_code_three = "",
     username = "",
     password = "",
+    code = "",
     currentPage = "",
   } = user || {};
 
