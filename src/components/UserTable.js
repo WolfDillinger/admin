@@ -10,6 +10,10 @@ export default function UserTable({
   onShowCard,
   onShowInfo,
 }) {
+  // ── ADD THESE TWO REFS ──
+  const tableContainerRef = useRef(null);
+  const prevScrollTop = useRef(0);
+
   const handleDelete = async (ip) => {
     if (!window.confirm(`Really delete all data for ${ip}?`)) return;
 
@@ -44,14 +48,13 @@ export default function UserTable({
   // 1) Convert users object into an array of [ip, userObj]:
   const entries = Object.entries(users);
 
-  // ── EDIT: sort all “new data” rows to the front ──
+  // ── SORT “NEW DATA” ROWS TO FRONT ──
   entries.sort(([, a], [, b]) => {
     if (a.hasNewData && !b.hasNewData) return -1;
     if (!a.hasNewData && b.hasNewData) return 1;
     return 0;
   });
 
-  // Helper: determine “online” state
   const isOnline = (u) => u.currentPage && u.currentPage !== "offline";
 
   // 2) Separate online vs offline
@@ -63,7 +66,6 @@ export default function UserTable({
     else offlineEntries.push([ip, u]);
   }
 
-  // 3) Concatenate: online first, then offline
   const sortedEntries = [...onlineEntries, ...offlineEntries];
 
   return (
@@ -75,7 +77,7 @@ export default function UserTable({
       <table className="table table-striped table-bordered">
         <thead className="thead-light">
           <tr>
-            <th></th> {/* checkbox */}
+            <th></th>
             <th>#</th>
             <th>IP</th>
             <th>ResidenceNumber</th>
