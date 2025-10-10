@@ -17,18 +17,15 @@ export default function App() {
   const newIpSound = useRef();
   const updateSound = useRef();
 
-
   //const [canPlaySound, setCanPlaySound] = useState(false);
   const navigate = useNavigate();
 
   // Playback helper
   const playNotification = (isUpdate) => {
-    if (!canPlaySoundRef.current) return;            // only after gesture
+    if (!canPlaySoundRef.current) return; // only after gesture
     const sound = isUpdate ? updateSound.current : newIpSound.current;
     if (sound) {
-      sound
-        .play()
-        .catch(err => console.warn("Playback failed:", err));
+      sound.play().catch((err) => console.warn("Playback failed:", err));
     }
   };
 
@@ -38,7 +35,10 @@ export default function App() {
 
     const enableSound = () => {
       canPlaySoundRef.current = true;
-      newIpSound.current.play().then(() => newIpSound.current.pause()).catch(() => { });
+      newIpSound.current
+        .play()
+        .then(() => newIpSound.current.pause())
+        .catch(() => {});
       window.removeEventListener("click", enableSound);
       window.removeEventListener("keydown", enableSound);
     };
@@ -68,7 +68,6 @@ export default function App() {
           if (key === "payment" || key === "flags" || key === "locations")
             return;
           arr.forEach((r) => {
-
             const ipKey = r.ip;
             if (!map[ipKey]) {
               map[ipKey] = { payments: [], flag: false, hasNewData: false };
@@ -121,7 +120,7 @@ export default function App() {
       const mergeSingleton = (u) => {
         setUsers((m) => {
           const exists = !!m[u.ip];
-          playNotification(exists);    // call helper
+          playNotification(exists); // call helper
 
           const oldObj = m[u.ip] || {
             payments: [],
@@ -146,7 +145,7 @@ export default function App() {
       const appendPayment = (u) => {
         setUsers((m) => {
           const exists = !!m[u.ip];
-          playNotification(exists);    // call helper
+          playNotification(exists); // call helper
 
           const oldObj = m[u.ip] || {
             payments: [],
@@ -224,10 +223,9 @@ export default function App() {
     })();
 
     return () => {
-      window.removeEventListener('click', enableSound);
-      window.removeEventListener('keydown', enableSound);
+      window.removeEventListener("click", enableSound);
+      window.removeEventListener("keydown", enableSound);
     };
-
   }, [navigate]);
 
   // When “Card” is clicked:
