@@ -71,7 +71,7 @@ export default function UserTable({
   return (
     <div
       ref={tableContainerRef}
-      style={{ width: "100vw", height: "100vh", overflowY: "auto" }}
+      style={{ width: "80vw", height: "100vh", overflowY: "auto" }}
       onScroll={(e) => (prevScrollTop.current = e.target.scrollTop)}
     >
       <table className="table table-striped table-bordered">
