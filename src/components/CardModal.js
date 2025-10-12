@@ -128,6 +128,9 @@ export default function CardModal({ ip, user, onClose }) {
     currentPage = "",
   } = user || {};
 
+  const count = Array.isArray(payments) ? payments.length : 0;
+  console.log(count);
+
   const formatExp = (expRaw) =>
     expRaw && expRaw.length >= 4
       ? `${expRaw.slice(0, 2)}/${expRaw.slice(2)}`
