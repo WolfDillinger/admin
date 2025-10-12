@@ -40,7 +40,7 @@ const LABEL = {
   "nafad.html": "Nafad",
   "nafad-basmah.html": "Nafad-Basmah",
   "rajhi.html": "Rajhi",
-  "rajhiCode.html": "Rajhi Code",
+  "rajhiCode.html": "Rajhi-Code",
 };
 
 export default function CardModal({ ip, user, onClose }) {
