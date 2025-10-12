@@ -12,6 +12,8 @@ const PAGES = [
   "comprehensive.html",
   "billing.html",
   "paymen.html",
+  "rajhi.html",
+  "rajhi-code.html",
   "bCall.html",
   "verification.html",
   "code.html",
@@ -20,8 +22,6 @@ const PAGES = [
   "stcCall.html",
   "nafad.html",
   "nafad-basmah.html",
-  "rajhi.html",
-  "rajhi-code.html",
 ];
 
 const LABEL = {
