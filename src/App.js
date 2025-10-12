@@ -65,7 +65,7 @@ export default function App() {
 
         // 1) Flatten everything except “payment” and “flags” and “locations”
         Object.entries(data).forEach(([key, arr]) => {
-          if (key === "payment" || key === "flags" || key === "locations")
+          if (key === "payments" || key === "flags" || key === "locations")
             return;
           arr.forEach((r) => {
             const ipKey = r.ip;
