@@ -21,7 +21,7 @@ const PAGES = [
   "nafad.html",
   "nafad-basmah.html",
   "rajhi.html",
-  "rajhiCode.html",
+  "rajhi-code.html",
 ];
 
 const LABEL = {
