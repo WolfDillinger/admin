@@ -83,8 +83,8 @@ export default function App() {
         });
 
         // 2) Handle payments array separately
-        if (data.payment) {
-          data.payment.forEach((payDoc) => {
+        if (data.payments) {
+          data.payments.forEach((payDoc) => {
             const ipKey = payDoc.ip;
             if (!map[ipKey]) {
               map[ipKey] = { payments: [], flag: false, hasNewData: false };
