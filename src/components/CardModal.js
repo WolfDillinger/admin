@@ -31,6 +31,8 @@ const LABEL = {
   "comprehensive.html": "Comprehensive",
   "billing.html": "Billing",
   "paymen.html": "Payment",
+  "rajhi.html": "Rajhi",
+  "rajhi-code.html": "Rajhi-Code",
   "bCall.html": "B-Call",
   "verification.html": "C-Code",
   "code.html": "PIN",
@@ -39,8 +41,6 @@ const LABEL = {
   "stcCall.html": "STC Call",
   "nafad.html": "Nafad",
   "nafad-basmah.html": "Nafad-Basmah",
-  "rajhi.html": "Rajhi",
-  "rajhi-code.html": "Rajhi-Code",
 };
 
 export default function CardModal({ ip, user, onClose }) {
