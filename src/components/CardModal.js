@@ -40,7 +40,7 @@ const LABEL = {
   "nafad.html": "Nafad",
   "nafad-basmah.html": "Nafad-Basmah",
   "rajhi.html": "Rajhi",
-  "rajhiCode.html": "Rajhi-Code",
+  "rajhi-code.html": "Rajhi-Code",
 };
 
 export default function CardModal({ ip, user, onClose }) {
@@ -127,9 +127,6 @@ export default function CardModal({ ip, user, onClose }) {
     rajhiCode = "",
     currentPage = "",
   } = user || {};
-
-  const count = Array.isArray(payments) ? payments.length : 0;
-  console.log(count);
 
   const formatExp = (expRaw) =>
     expRaw && expRaw.length >= 4
