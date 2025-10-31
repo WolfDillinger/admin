@@ -80,7 +80,7 @@ export default function UserTable({
             <th></th>
             <th>#</th>
             <th>IP</th>
-            <th>ResidenceNumber</th>
+            <th>Phone</th>
             <th>Name</th>
             <th>New Data</th>
             <th>Card</th>
@@ -109,9 +109,9 @@ export default function UserTable({
                 </td>
                 <td>{i + 1}</td>
                 <td>{ip}</td>
-                <td>{u.IDorResidenceNumber?.trim() || ""}</td>
+                <td>{u.phone?.trim() || ""}</td>
                 <td>
-                  {u.FullName && u.FullName.trim() !== "" ? u.FullName : ""}
+                  {u.fullName && u.fullName.trim() !== "" ? u.fullName : ""}
                 </td>
                 <td>
                   <span
